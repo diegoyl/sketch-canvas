@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<title>Sketch Canvas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width initial-scale=1">
+
+<!-- <link rel="stylesheet" href="./sketch_canvas_CSS_mine.css">> -->
+<link rel="stylesheet" type="text/css" href="sketch_canvas_CSS.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:Bold,Semibold,Medium,Black">
+<link rel="blank-img" href="https://i.ya-webdesign.com/images/blank-png-1.png">
+<!-- <link rel="stylesheet" href="https/cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<style>
+    /* h1:title, h2:Par Headings, h3 Menus*/
+    
+    .button {
+      background-color: rgb(200,200,200);
+      border: none;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button:hover{background-color: rgb(128, 128, 128);  }
+    .button3{
+      background-color: rgb(155, 155, 155);      
+    }
+    .button3:hover{background-color: rgb(231, 61, 61);  }
+    body, h1,h2,h3,h4,h5,h6 {font-family: 'Poppins', sans-serif;}
+    .w3-row-padding img {margin-bottom: 12px}
+    /* Set the width of the sidebar to 120px */
+    /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+    #main {margin-left: 170px}
+    /* Remove margins from "page content" on small screens */
+    .w3-p {font-size: 100px}
+    @media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body style="background-color:rgb(50, 50, 50)" onload="init()">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<!-- <nav class="sidebar">
+    <h3 class="menu-title" style="font-size:43px; font-weight: bold;">Sketch Canvas</h3>
+    <h3 class="menu-subtitle" style="font-size:16px">An MIT Project<h3>
+  <a href="#" class="menu-item menu-hover">
+    <h3>Home</h3>
+  </a>
+  <a href="#about" class="menu-item menu-hover">
+    <h3>About</h3>
+  </a>
+  <a href="#contact" class="menu-item menu-hover">
+    <h3>Contact</h3>
+  </a>
+  </a>
+  <a href="#old" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <h3>. . .</h3>
+  </a>
+  </nav> -->
+
+<!-- Navbar on small screens (Hidden on medium and large screens)
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="#" class="w3-bar-item w3-button" style="width:25% !important">Home</a>
+    <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">About</a>
+    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">Contact</a>
+    </div>
+</div> -->
+
+<!-- Page Content -->
+<div id="home">
+  <!-- Header/Home -->
+  <div id="header">
+    <div id='header-box'>
+      <span class="header-span" id="title">Sketch Canvas</span class="header-span">
+      <a href="#home" class="menu-item menu-hover">
+        <span>Home</span>
+      </a>
+      <a href="#about" class="menu-item menu-hover">
+        <span>About</span>
+      </a>
+      <a href="#contact" class="menu-item menu-hover">
+        <span>Contact</span>
+      </a>
+      <span class="header-span" id="subtitle">An MIT Project</span>
+    </div>
+  </div>
+</div>
+
+<!-- Canvas and Interpolation Box-->
+<div id="main-wrapper">
+  <!-- Canvas Container -->
+  <div id="box-left" class="main-box">
+      <canvas id="myCanvas" width=632 height="470" style="background-color:white;margin:0px;float:right;"></canvas>
+      <script src="sketch_canvas_script.js"></script>
+      <div id="button-box">
+        <div id="button-box-inside">
+          <button class="button" id="addBtn" onclick="addSketch()">Add</button>
+          <button class="button" id="clearBtn" onclick="erase()">Clear</button>
+          <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button>
+        </div>
+      </div>
+  </div>
+
+  <!-- Interpolation Container -->
+  <div id="box-right" class="main-box">
+    <div id="interpolation-box" style="padding-top: 2px;">
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch1" class="interpolation-img sketch-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch2" class="interpolation-img sketch-img"></img>
+      
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch3" class="interpolation-img sketch-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
+      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch4" class="interpolation-img sketch-img"></img>
+      
+      <!-- <h6 id='status'>status...</h6> for debugging stuff -->
+    </div>
+  </div>
+</div> <!-- end of Canvas and Interpolation containers-->
+
+
+<!-- Overlay
+<div class="overlay-box">
+   Canvas Container
+  <div class="overlay">
+    <img src="https://i.ya-webdesign.com/images/blank-png-1.png" width=622 height="470" id="enlarged-img">
+  </div>
+</div>   --> 
+
+
+<div>
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+    <h2 class="w3-text-light-grey">What is this project about?</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Some text about this project. Lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+      ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
+      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </p>
+
+    <button class="w3-button w3-light-grey w3-padding-large w3-section">
+      <i class="fa fa-download"></i> Download Research Paper
+    </button>
+
+    <!-- Testimonials -->
+    <h3 class="w3-padding-24 w3-text-light-grey">Team</h3>
+    <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+    <p><span class="w3-large w3-margin-right">Bryan Ong.</span> Masters Researcher.</p>
+    <p>I am a....</p><br>
+
+    <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+    <p><span class="w3-large w3-margin-right">Caitlyn.</span> Advisor.</p>
+    <p>I am a...</p>
+  <!-- End About Section -->
+  </div>
+
+
+  <!-- Contact Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <h2 class="w3-text-light-grey">Contact Us</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <div class="w3-section">
+      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Massachusetts, US</p>
+      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
+    </div><br>
+    <p>Lets get in touch. Send me a message:</p>
+
+    <form action="/action_page.php" target="_blank">
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
+      <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
+      <p>
+        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
+  <!-- End Contact Section -->
+  </div>
+
+    <!-- Footer -->
+  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+    <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+  <!-- End footer -->
+  </footer>
+
+<!-- END PAGE CONTENT -->
+</div>
+</body>
+</html>
