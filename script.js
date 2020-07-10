@@ -12,7 +12,7 @@ var canvas, ctx, flag = false,
 var x = "black",
     y = 4;
 
-var blankSketch = true;
+var blankSketch = true; // won't allow user to add the sketch if they haven't drawn anything
 
 function init() {
      canvas = document.getElementById('myCanvas');
