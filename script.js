@@ -22,10 +22,10 @@ function init() {
 
     // used this Event Listener to help fix mouse position issues
     canvas.addEventListener("mousemove", function (e) {
-        var mouseXX = e.clientX;
-        var mouseYY = e.clientY;
+        var mouseX2 = e.clientX;
+        var mouseY2 = e.clientY;
         var status = document.getElementById('status');
-        status.innerHTML = mouseXX+" | "+mouseYY;
+        status.innerHTML = mouseX2+" | "+mouseY2;
     });
 
      canvas.addEventListener("mousemove", function (e) {
