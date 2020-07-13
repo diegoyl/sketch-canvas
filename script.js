@@ -19,7 +19,8 @@ function init() {
      ctx = canvas.getContext("2d");
      w = canvas.width;
      h = canvas.height;
-
+     
+     
     // used this Event Listener to help fix mouse position issues
     canvas.addEventListener("mousemove", function (e) {
         var mouseX2 = e.clientX;
@@ -129,13 +130,15 @@ function save() {
 
 
 function findxy(res, e) {
+    var scrolltop = this.scrollY;
+    scrollStatus.innerHTML = scrolltop;
 
-  prevX = currX;
-  prevY = currY;
-  currX = e.clientX - canvas.offsetLeft;
-  currY = e.clientY - canvas.offsetTop;
-  mouseX = currX - prevX;
-  mouseY = currY - prevY;
+    prevX = currX;
+    prevY = currY;
+    currX = e.clientX - canvas.offsetLeft;
+    currY = e.clientY - canvas.offsetTop + scrolltop;
+    mouseX = currX - prevX ;
+    mouseY = currY - prevY;
 
     if (res == 'down') {
 
@@ -145,7 +148,7 @@ function findxy(res, e) {
         if (dot_flag) {
             ctx.beginPath();
             ctx.fillStyle = x;
-            ctx.fillRect(currX, currY, 2, 2);
+            ctx.fillRect(currX, currY, y, y);
             ctx.closePath();
             dot_flag = false;
             state1 = 1;

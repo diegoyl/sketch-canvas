@@ -269,12 +269,9 @@ h1,h2,h3,h4,h5,h6{
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  /* text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer; */
+  font-family: roc-grotesk, sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 .canvas-sidebar {
@@ -294,7 +291,7 @@ h1,h2,h3,h4,h5,h6{
 #header {
     background-color: black;
     width: 100%;
-    height: 50px;
+    height: 52px;
     margin: 0px;
     padding-left: 10px;
     padding-right: 10px;
@@ -303,36 +300,43 @@ h1,h2,h3,h4,h5,h6{
 }
 #header-box {
     text-align: left;
-    background-color: black;
+    /* background-color: red; */
     color: white;
     width: 1244px;
     height: inherit;
     margin: auto;
+    padding-top:3px;
     /* border: yellow solid 2px; */
 }
 #title {
+    font-family: roc-grotesk-wide, sans-serif;
+    font-weight: 100;
+    font-style: normal;
     font-size: 33px;
-    padding-right: 80px;
+    padding-right: 600px;
 }
 
 #subtitle{
+    font-family: roc-grotesk, sans-serif;
+    font-weight: 500;
+    font-style: normal;
     color: gray;
-    font-size:2 0px;
+    font-size: 20px;
     padding-left: 80px;
     padding-right: 80px;
 }
 .menu-item{
-    width:20px;
+    font-family: roc-grotesk, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 22px;
     display:inline;
+    text-decoration: none;
     /* border: 5px yellowgreen solid; */
     text-align:center;
     padding:2px!important;
 }
 .menu-hover:hover{background-color:rgb(25,25,25)!important}
-
-.header-span {
-    /* border: green 1px solid; */
-}
 
 
 #main-wrapper {
@@ -340,7 +344,7 @@ h1,h2,h3,h4,h5,h6{
     height: 600px;
     margin: 0 auto;
     text-align: center;
-    /* border: 2px solid greenyellow; */
+    /* border: 2px solid pink; */
     padding-top: 32px;
 }
 .main-box {
@@ -359,10 +363,10 @@ h1,h2,h3,h4,h5,h6{
 }
 
 #interpolation-box {
-      float: left;
-      height: 470px;
-      width: 632px;
-      background-color: rgb(185, 185, 185);
+    float: left;
+    height: 470px;
+    width: 632px;
+    background-color: rgb(185, 185, 185);
 
 }
 #button-box {
@@ -409,4 +413,15 @@ img {
 }
 #enlarged-img {
     vertical-align: middle;
+}
+
+h2 {
+    font-family: roc-grotesk, sans-serif;
+    color: white;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.text-grey {
+    color: rgb(184, 17, 17);
 }

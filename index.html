@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width initial-scale=1">
 
 <!-- <link rel="stylesheet" href="./sketch_canvas_CSS_mine.css">> -->
-<link rel="stylesheet" type="text/css" href="sketch_canvas_CSS.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:Bold,Semibold,Medium,Black">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://use.typekit.net/drd6sup.css">
 <link rel="blank-img" href="https://i.ya-webdesign.com/images/blank-png-1.png">
 <!-- <link rel="stylesheet" href="https/cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <style>
@@ -28,7 +28,7 @@
       background-color: rgb(155, 155, 155);      
     }
     .button3:hover{background-color: rgb(231, 61, 61);  }
-    body, h1,h2,h3,h4,h5,h6 {font-family: 'Poppins', sans-serif;}
+    body, h1,h2,h3,h4,h5,h6 {font-family: 'Roc Grotesk', sans-serif;}
     .w3-row-padding img {margin-bottom: 12px}
     /* Set the width of the sidebar to 120px */
     /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
@@ -82,7 +82,7 @@
       <a href="#contact" class="menu-item menu-hover">
         <span>Contact</span>
       </a>
-      <span class="header-span" id="subtitle">An MIT Project</span>
+      <!-- <span class="header-span" id="subtitle">An MIT Project</span> -->
     </div>
   </div>
 </div>
@@ -92,13 +92,15 @@
   <!-- Canvas Container -->
   <div id="box-left" class="main-box">
       <canvas id="myCanvas" width=632 height="470" style="background-color:white;margin:0px;float:right;"></canvas>
-      <script src="sketch_canvas_script.js"></script>
+      <script src="script.js"></script>
       <div id="button-box">
         <div id="button-box-inside">
           <button class="button" id="addBtn" onclick="addSketch()">Add</button>
           <button class="button" id="clearBtn" onclick="erase()">Clear</button>
           <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button>
         </div>
+      <!-- for debugging stuff -->
+      <!-- <h6 id='scrollStatus'>scroll...</h6>  -->
       </div>
   </div>
 
@@ -147,7 +149,8 @@
       <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
       <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch4" class="interpolation-img sketch-img"></img>
       
-      <!-- <h6 id='status'>status...</h6> for debugging stuff -->
+      <!-- for debugging stuff -->
+      <!-- <h6 id='status'>status...</h6>  -->
     </div>
   </div>
 </div> <!-- end of Canvas and Interpolation containers-->
