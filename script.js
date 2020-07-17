@@ -3,11 +3,17 @@ var canvas, ctx, flag = false,
     currX = 0,
     prevY = 0,
     currY = 0,
-    dot_flag = false;
-    state1 = 0;
-    state2 = 0;
-    state3 = 0;
-    coords_list = [];
+    dot_flag = false,
+    state1 = 0,
+    state2 = 0,
+    state3 = 0,
+    coords_list = [],
+    sketchSequence1 = 0,
+    sketchSequence2 = 0,
+    sketchSequence3 = 0,
+    sketchSequence4 = 0,
+    seqVector = [];
+
 
 var x = "black",
     y = 4;
@@ -21,12 +27,13 @@ function init() {
      h = canvas.height;
      
      
+     
     // used this Event Listener to help fix mouse position issues
     canvas.addEventListener("mousemove", function (e) {
         var mouseX2 = e.clientX;
         var mouseY2 = e.clientY;
         var status = document.getElementById('status');
-        status.innerHTML = mouseX2+" | "+mouseY2;
+        // status.innerHTML = mouseX2+" | "+mouseY2;
     });
 
      canvas.addEventListener("mousemove", function (e) {
@@ -44,6 +51,8 @@ function init() {
  }
 
 function draw() {
+    recordSequence();
+
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currX, currY);
@@ -53,7 +62,30 @@ function draw() {
     ctx.stroke();
     ctx.closePath();
 }
-   
+
+function recordSequence () {
+    //collecting sequential data in form of [ [x1,x2,...],[y1,y2,..],[t1,t2,...] ]
+    var myInterval = setInterval(sequentialFunc,4000);
+    
+    function myStopFunction() {
+        clearInterval(myInterval);
+    }
+
+    clearInterval(myInterval);
+
+    function sequentialFunc(){
+        console.log("running seq func");
+        var newStroke = [[],[],[]]
+        var seqX = "x";
+        var seqY = "y";
+        var seqT = "t";
+
+        seqVector.push(newStroke);
+
+    }
+}
+
+
 // clears only the current sketch
 function erase() {
     ctx.clearRect(0, 0, w, h);
@@ -82,19 +114,21 @@ function addSketch() {
     console.log(addCount);
     if (blankSketch == false) {
         if (addCount == 0) {
-            sketch1.src = dataURI
+            sketch1.src = dataURI;
+            sketchSequence1 = seqVector;
+            seqVector = [];
         }
         else if (addCount == 1) {
-            sketch2.src = dataURI
+            sketch2.src = dataURI;
         }
         if (addCount == 2) {
-            sketch3.src = dataURI
+            sketch3.src = dataURI;
         }
         else if (addCount == 3) {
-            sketch4.src = dataURI
+            sketch4.src = dataURI;
         }
         else if (addCount > 3) {
-            alert('You can only add up to 4 sketches. Press "Clear All" to start over.')
+            alert('You can only add up to 4 sketches. Press "Clear All" to start over.');
         }
         erase();
         blankSketch = true;
@@ -131,7 +165,7 @@ function save() {
 
 function findxy(res, e) {
     var scrolltop = this.scrollY;
-    scrollStatus.innerHTML = scrolltop;
+    // scrollStatus.innerHTML = scrolltop;
 
     prevX = currX;
     prevY = currY;
