@@ -15,6 +15,10 @@ var canvas, ctx, flag = false,
     seqVector = [];
 
 
+const timerText = document.getElementById("title");
+let intervalID;
+let newStroke;
+
 var x = "black",
     y = 4;
 
@@ -25,16 +29,8 @@ function init() {
      ctx = canvas.getContext("2d");
      w = canvas.width;
      h = canvas.height;
-     
-     
-     
-    // used this Event Listener to help fix mouse position issues
-    canvas.addEventListener("mousemove", function (e) {
-        var mouseX2 = e.clientX;
-        var mouseY2 = e.clientY;
-        var status = document.getElementById('status');
-        // status.innerHTML = mouseX2+" | "+mouseY2;
-    });
+
+     let seqVector = [];
 
      canvas.addEventListener("mousemove", function (e) {
          findxy('move', e)
@@ -51,7 +47,6 @@ function init() {
  }
 
 function draw() {
-    recordSequence();
 
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
@@ -61,28 +56,6 @@ function draw() {
     ctx.lineCap = "round";
     ctx.stroke();
     ctx.closePath();
-}
-
-function recordSequence () {
-    //collecting sequential data in form of [ [x1,x2,...],[y1,y2,..],[t1,t2,...] ]
-    var myInterval = setInterval(sequentialFunc,4000);
-    
-    function myStopFunction() {
-        clearInterval(myInterval);
-    }
-
-    clearInterval(myInterval);
-
-    function sequentialFunc(){
-        console.log("running seq func");
-        var newStroke = [[],[],[]]
-        var seqX = "x";
-        var seqY = "y";
-        var seqT = "t";
-
-        seqVector.push(newStroke);
-
-    }
 }
 
 
@@ -109,6 +82,7 @@ function eraseAll() {
 
 // adds picture of sketch to the interpolation bar and creates blank canvas
 function addSketch() {
+    
     canvas = document.getElementById('myCanvas');
     let dataURI = canvas.toDataURL();
     console.log(addCount);
@@ -120,12 +94,18 @@ function addSketch() {
         }
         else if (addCount == 1) {
             sketch2.src = dataURI;
+            sketchSequence2 = seqVector;
+            seqVector = [];
         }
         if (addCount == 2) {
             sketch3.src = dataURI;
+            sketchSequence3 = seqVector;
+            seqVector = [];
         }
         else if (addCount == 3) {
             sketch4.src = dataURI;
+            sketchSequence4 = seqVector;
+            seqVector = [];
         }
         else if (addCount > 3) {
             alert('You can only add up to 4 sketches. Press "Clear All" to start over.');
@@ -152,8 +132,7 @@ function downloadObjectAsJson(exportObj, exportName){
 
 // Function for saving array - for mouse coordinates see prevX/Y and currX/Y
 function save() {
-
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(coords_list));
+ 
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href",     dataStr);
     downloadAnchorNode.setAttribute("download", "test.json");
@@ -165,7 +144,6 @@ function save() {
 
 function findxy(res, e) {
     var scrolltop = this.scrollY;
-    // scrollStatus.innerHTML = scrolltop;
 
     prevX = currX;
     prevY = currY;
@@ -175,6 +153,28 @@ function findxy(res, e) {
     mouseY = currY - prevY;
 
     if (res == 'down') {
+        let xArray = [];
+        let yArray = [];
+        let tArray = [];
+        
+        newStroke = [xArray, yArray, tArray];
+
+        let seqX;
+        let seqy;
+        let seqT = 0;
+
+        intervalID = setInterval(function () {
+            seqT += 1;
+            seqX = currX;
+            seqY = currY;
+
+            xArray.push(seqX);
+            yArray.push(seqY);
+            tArray.push(seqT);
+
+            timerText.innerHTML = seqT+" | "+seqX+","+seqY;
+        }, 10);
+
 
         flag = true;
         dot_flag = true;
@@ -189,11 +189,25 @@ function findxy(res, e) {
             state2 = 0;
         }
     }
-    if (res == 'up' || res == "out") {
+    if (res == 'up') {
+        clearInterval(intervalID);
+        timerText.innerHTML = "reset";
+        seqVector.push(newStroke)
+        console.log("seqVec: "+seqVector)
+        console.log(seqVector.length+" | "+newStroke.length)
+
+
         flag = false;
         state1 = 0;
         state2 = 1;
     }
+
+    if (res == "out") {
+        flag = false;
+        state1 = 0;
+        state2 = 1;
+    }
+
     if (res == 'move') {
         if (flag) {
             draw();
@@ -204,3 +218,4 @@ function findxy(res, e) {
     // coords_list.push([currX,currY,prevX,prevY]);
 
 }
+
