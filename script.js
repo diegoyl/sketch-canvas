@@ -189,20 +189,15 @@ function findxy(res, e) {
             state2 = 0;
         }
     }
-    if (res == 'up') {
-        clearInterval(intervalID);
-        timerText.innerHTML = "reset";
-        seqVector.push(newStroke)
-        console.log("seqVec: "+seqVector)
-        console.log(seqVector.length+" | "+newStroke.length)
+    if (res == 'up' || res == "out") {
+        if (flag == true) {
+            clearInterval(intervalID);
+            timerText.innerHTML = "reset";
+            seqVector.push(newStroke)
+            console.log("seqVec: "+seqVector)
+            console.log(seqVector.length+" | "+newStroke.length)
+        }
 
-
-        flag = false;
-        state1 = 0;
-        state2 = 1;
-    }
-
-    if (res == "out") {
         flag = false;
         state1 = 0;
         state2 = 1;
