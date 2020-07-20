@@ -80,31 +80,40 @@ function eraseAll() {
     }
 }
 
+let lastSketch;
 // adds picture of sketch to the interpolation bar and creates blank canvas
 function addSketch() {
     
     canvas = document.getElementById('myCanvas');
     let dataURI = canvas.toDataURL();
     console.log(addCount);
+    
+    // saving seqVector array as JSON
+    var seqDataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(seqVector));
+
     if (blankSketch == false) {
         if (addCount == 0) {
             sketch1.src = dataURI;
-            sketchSequence1 = seqVector;
+            sketchSequence1 = seqDataStr;
+            lastSketch = seqVector;
             seqVector = [];
         }
         else if (addCount == 1) {
             sketch2.src = dataURI;
-            sketchSequence2 = seqVector;
+            sketchSequence2 = seqDataStr;
+            lastSketch = seqVector;
             seqVector = [];
         }
         if (addCount == 2) {
             sketch3.src = dataURI;
-            sketchSequence3 = seqVector;
+            sketchSequence3 = seqDataStr;
+            lastSketch = seqVector;
             seqVector = [];
         }
         else if (addCount == 3) {
             sketch4.src = dataURI;
-            sketchSequence4 = seqVector;
+            sketchSequence4 = seqDataStr;
+            lastSketch = seqVector;
             seqVector = [];
         }
         else if (addCount > 3) {
@@ -132,7 +141,7 @@ function downloadObjectAsJson(exportObj, exportName){
 
 // Function for saving array - for mouse coordinates see prevX/Y and currX/Y
 function save() {
- 
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(lastSketch));
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href",     dataStr);
     downloadAnchorNode.setAttribute("download", "test.json");
