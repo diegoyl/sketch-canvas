@@ -18,6 +18,7 @@ var canvas, ctx, flag = false,
 const timerText = document.getElementById("title");
 let intervalID;
 let newStroke;
+const intervalTime = 10; //interval in milliseconds for recording points of stroke
 
 var x = "black",
     y = 4;
@@ -47,7 +48,6 @@ function init() {
  }
 
 function draw() {
-
     ctx.beginPath();
     ctx.moveTo(prevX, prevY);
     ctx.lineTo(currX, currY);
@@ -182,7 +182,7 @@ function findxy(res, e) {
             tArray.push(seqT);
 
             timerText.innerHTML = seqT+" | "+seqX+","+seqY;
-        }, 10);
+        }, intervalTime);
 
 
         flag = true;
@@ -201,7 +201,7 @@ function findxy(res, e) {
     if (res == 'up' || res == "out") {
         if (flag == true) {
             clearInterval(intervalID);
-            timerText.innerHTML = "reset";
+            timerText.innerHTML = "Sketch Canvas";
             seqVector.push(newStroke)
             console.log("seqVec: "+seqVector)
             console.log(seqVector.length+" | "+newStroke.length)
