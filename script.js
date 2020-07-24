@@ -83,7 +83,6 @@ function eraseAll() {
 let lastSketch;
 // adds picture of sketch to the interpolation bar and creates blank canvas
 function addSketch() {
-    
     canvas = document.getElementById('myCanvas');
     let dataURI = canvas.toDataURL();
     console.log(addCount);
@@ -169,8 +168,9 @@ function findxy(res, e) {
         newStroke = [xArray, yArray, tArray];
 
         let seqX;
-        let seqy;
+        let seqY;
         let seqT = 0;
+        let penState = [0,0,0]
 
         intervalID = setInterval(function () {
             seqT += 1;
