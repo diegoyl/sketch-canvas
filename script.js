@@ -12,13 +12,18 @@ var canvas, ctx, flag = false,
     sketchSequence2 = 0,
     sketchSequence3 = 0,
     sketchSequence4 = 0,
-    seqVector = [];
+    absVector = [];
+    relVector = [];
+    
 
 
 const timerText = document.getElementById("title");
 let intervalID;
-let newStroke;
-const intervalTime = 10; //interval in milliseconds for recording points of stroke
+let absStroke;
+let relStroke = [0,0, 1,0,0];
+let upX;
+let upY;
+const intervalTime = 400; //interval in milliseconds for recording points of stroke
 
 var x = "black",
     y = 4;
@@ -31,7 +36,7 @@ function init() {
      w = canvas.width;
      h = canvas.height;
 
-     let seqVector = [];
+     let absVector = [];
 
      canvas.addEventListener("mousemove", function (e) {
          findxy('move', e)
@@ -87,33 +92,40 @@ function addSketch() {
     let dataURI = canvas.toDataURL();
     console.log(addCount);
     
-    // saving seqVector array as JSON
-    var seqDataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(seqVector));
-
+    // saving absVector array as JSON
+    var seqDataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(absVector));
+    
     if (blankSketch == false) {
+        // adding final p3 stroke to resVector
+        
+        lastPoint = relVector.pop();
+
+        console.log("FINAL point:"+lastPoint);
+        lastPoint.splice(2,3, 0, 0, 1);
+        relVector.push(lastPoint);
+        console.log("FINAL point edited:"+lastPoint);
+        console.log("FINAL ARRAY:"+relVector);
+            
+
         if (addCount == 0) {
             sketch1.src = dataURI;
             sketchSequence1 = seqDataStr;
-            lastSketch = seqVector;
-            seqVector = [];
+            lastSketch = absVector;
         }
         else if (addCount == 1) {
             sketch2.src = dataURI;
             sketchSequence2 = seqDataStr;
-            lastSketch = seqVector;
-            seqVector = [];
+            lastSketch = absVector;
         }
         if (addCount == 2) {
             sketch3.src = dataURI;
             sketchSequence3 = seqDataStr;
-            lastSketch = seqVector;
-            seqVector = [];
+            lastSketch = absVector;
         }
         else if (addCount == 3) {
             sketch4.src = dataURI;
             sketchSequence4 = seqDataStr;
-            lastSketch = seqVector;
-            seqVector = [];
+            lastSketch = absVector;
         }
         else if (addCount > 3) {
             alert('You can only add up to 4 sketches. Press "Clear All" to start over.');
@@ -121,6 +133,12 @@ function addSketch() {
         erase();
         blankSketch = true;
         addCount = addCount + 1;
+
+    // resetting vectors and initializing first point of relVector
+    absVector = [];
+    relVector = [];
+    relStroke = [0,0, 1,0,0];
+
     }
     else if (blankSketch == true) {
         alert("You can't add an empty sketch")
@@ -157,31 +175,56 @@ function findxy(res, e) {
     prevY = currY;
     currX = e.clientX - canvas.offsetLeft;
     currY = e.clientY - canvas.offsetTop + scrolltop;
-    mouseX = currX - prevX ;
+    mouseX = currX - prevX;
     mouseY = currY - prevY;
+    currX2 = currX;
+    currY2 = currY;
 
     if (res == 'down') {
+        // tracks vector with absolute x and y
         let xArray = [];
         let yArray = [];
         let tArray = [];
         
-        newStroke = [xArray, yArray, tArray];
+        absStroke = [xArray, yArray, tArray];
 
-        let seqX;
-        let seqY;
-        let seqT = 0;
-        let penState = [0,0,0]
+        let absX;
+        let absY;
+        let absT = 0;
+
+        // tracks vector with relative x, y and pen states
+        if (blankSketch == true) {
+            relVector.push(relStroke);
+        } 
+
 
         intervalID = setInterval(function () {
-            seqT += 1;
-            seqX = currX;
-            seqY = currY;
+            // absVector
+            absT += 1;
+            absX = currX;
+            absY = currY;
 
-            xArray.push(seqX);
-            yArray.push(seqY);
-            tArray.push(seqT);
+            xArray.push(absX);
+            yArray.push(absY);
+            tArray.push(absT);
 
-            timerText.innerHTML = seqT+" | "+seqX+","+seqY;
+            // relVector
+            prevX2 = currX2;
+            prevY2 = currY2;
+            currX2 = e.clientX - canvas.offsetLeft;
+            currY2 = e.clientY - canvas.offsetTop + scrolltop;
+            mouseX2 = currX2 - prevX2;
+            mouseY2 = currY2 - prevY2;
+
+            relX = mouseX2;
+            relY = mouseY2;
+            relStroke = [relX, relY, 1, 0, 0];
+            relVector.push(relStroke);
+            console.log("XY:"+currX+","+currY);
+            
+            // text for debugging
+            timerText.innerHTML = absT+" | "+absX+","+absY+" | "+relX+","+relY;
+
         }, intervalTime);
 
 
@@ -202,9 +245,20 @@ function findxy(res, e) {
         if (flag == true) {
             clearInterval(intervalID);
             timerText.innerHTML = "Sketch Canvas";
-            seqVector.push(newStroke)
-            console.log("seqVec: "+seqVector)
-            console.log(seqVector.length+" | "+newStroke.length)
+            absVector.push(absStroke);
+
+
+            
+            console.log("ARRAY:"+relVector);
+            lastPoint = relVector.pop();
+            console.log("last point:"+lastPoint);
+            lastPoint.splice(2,3, 0, 1, 0);
+            relVector.push(lastPoint);
+            console.log("last point edited:"+lastPoint);
+            console.log("ARRAY2:"+relVector);
+            
+            // upX = currX;
+            // upY = currY;
         }
 
         flag = false;
