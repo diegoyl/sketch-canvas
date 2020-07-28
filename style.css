@@ -415,13 +415,27 @@ img {
     vertical-align: middle;
 }
 
-h2 {
-    font-family: roc-grotesk, sans-serif;
-    color: white;
-    font-weight: 500;
-    font-style: normal;
-}
 
 .text-grey {
     color: rgb(184, 17, 17);
+}
+
+.button {
+    background-color: rgb(200,200,200);
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button:hover{background-color: rgb(128, 128, 128);  }
+
+.button3{
+background-color: rgb(155, 155, 155);      
+}
+.button3:hover{background-color: rgb(231, 61, 61);  
 }
