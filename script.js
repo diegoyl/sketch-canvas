@@ -146,28 +146,30 @@ function addSketch() {
         absDataStorage.push(absSeqDataStr);
         relDataStorage.push(relSeqDataStr);
 
-        if (addCount == 0) {
-            sketch1.src = dataURI; 
-        }
-        else if (addCount == 1) {
-            sketch2.src = dataURI;
-        }
-        if (addCount == 2) {
-            sketch3.src = dataURI;
-        }
-        else if (addCount == 3) {
-            sketch4.src = dataURI;
-        }
-        else if (addCount > 3) {
-            alert('You can only add up to 4 sketches. Press "Clear All" to start over.');
-        }
-        erase();
-        blankSketch = true;
-        addCount = addCount + 1;
+        // if (addCount == 0) {
+        //     sketch1.src = dataURI; 
+        // }
+        // else if (addCount == 1) {
+        //     sketch2.src = dataURI;
+        // }
+        // if (addCount == 2) {
+        //     sketch3.src = dataURI;
+        // }
+        // else if (addCount == 3) {
+        //     sketch4.src = dataURI;
+        // }
+        // else if (addCount > 3) {
+        //     alert('You can only add up to 4 sketches. Press "Clear All" to start over.');
+        // }
+        // erase();
+        // blankSketch = true;
+        // addCount = addCount + 1;
 
-    // resetting vector
-    absVector = [];
+        // resetting vector
+        absVector = [];
 
+        // model prediction
+        makePrediction(dataURI);
     }
     else if (blankSketch == true) {
         alert("You can't add an empty sketch")
@@ -285,3 +287,44 @@ function saveRel() {
 }
 
 
+// model stuff
+var encoder;
+var decoder;
+var model;
+
+
+tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
+    encoder = enc;
+    console.log("loaded encoder");
+    console.log(encoder);
+   });
+
+tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
+    decoder = dec;
+    console.log("loaded decoder");
+    console.log(decoder);
+   });
+
+
+var predictImg = document.getElementById("predict-img");
+
+function makePrediction(sketchInput) {
+    // let prediction = predictionModel.predict(sketchPNG);
+    // predictImg.src = prediction;
+    
+    let teste = encoder.predict(sketchInput);
+    let testd = decoder.predict(teste);
+    console.log(teste);
+
+    let a = 2;
+    // 3, 5, 8
+    // plt.imshow(testd[a])
+    console.log("teste:"+teste);
+    console.log("testd:"+testd);
+
+    let data = np.zeros([2,10]); // 10 is latent_dim
+    data[0] = teste[a];
+    data[1] = teste[5];
+    console.log("data:"+data);
+    console.log("model predict:"+model.predict(data))
+}
