@@ -169,7 +169,8 @@ function addSketch() {
         absVector = [];
 
         // model prediction
-        makePrediction(dataURI);
+        // makePrediction(dataURI);
+        savePNG(dataURI);
     }
     else if (blankSketch == true) {
         alert("You can't add an empty sketch")
@@ -286,6 +287,16 @@ function saveRel() {
     }
 }
 
+function savePNG(img) {
+    var dataStr = img;
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", "handsketch.png");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
 
 // model stuff
 var encoder;
@@ -293,38 +304,57 @@ var decoder;
 var model;
 
 
-tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
-    encoder = enc;
-    console.log("loaded encoder");
-    console.log(encoder);
-   });
+// tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
+//     encoder = enc;
+//     console.log("loaded encoder");
+//     console.log(encoder);
+//    });
 
-tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
-    decoder = dec;
-    console.log("loaded decoder");
-    console.log(decoder);
+// tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
+//     decoder = dec;
+//     console.log("loaded decoder");
+//     console.log(decoder);
+//    });
+
+tf.loadLayersModel("model/model.json").then(function(mod) {
+    model = mod;
+    console.log("loaded model");
+    console.log(model);
    });
 
 
 var predictImg = document.getElementById("predict-img");
+var latent_dim = 10;
 
 function makePrediction(sketchInput) {
-    // let prediction = predictionModel.predict(sketchPNG);
-    // predictImg.src = prediction;
-    
-    let teste = encoder.predict(sketchInput);
+    let immatrixhand = sketchInput;
+
+    let img_cols = 632;
+    let img_rows = 470;
+
+    let handdata = sketchInput;
+    console.log(handdata);
+    let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
+    hand_test /= 255;
+
+    let img = immatrixhand[2].reshape(img_cols,img_rows,3)
+    // plt.imshow(img)
+
+    let teste = encoder.predict(hand_test);
     let testd = decoder.predict(teste);
-    console.log(teste);
+    console.log(testd);
 
     let a = 2;
     // 3, 5, 8
     // plt.imshow(testd[a])
-    console.log("teste:"+teste);
-    console.log("testd:"+testd);
+    console.log("teste:");
+    console.log(teste);
+    console.log("testd:");
+    console.log(testd);
 
-    let data = np.zeros([2,10]); // 10 is latent_dim
+    let data = np.zeros([2,latent_dim]);
     data[0] = teste[a];
     data[1] = teste[5];
     console.log("data:"+data);
-    console.log("model predict:"+model.predict(data))
-}
+    console.log("model predict:"+model.predict(data));
+}   
