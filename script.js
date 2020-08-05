@@ -134,7 +134,9 @@ function addSketch() {
 
         canvas = document.getElementById('myCanvas');
         let dataURI = canvas.toDataURL(); // png for displaying sketch on website
-        let sketchInput = ctx.getImageData(x, y, w, h).data;
+        let sketchInput = ctx.getImageData(0, 0, w, h);
+        console.log(sketchInput);
+
         // converting absVector into relVector with relative distances and pen states
         let relVector = abs2relConverter(absVector);
         // console.log("AbsVec:"+absVector);
@@ -169,7 +171,7 @@ function addSketch() {
         absVector = [];
 
         // model prediction
-        // makePrediction(dataURI);
+        makePrediction(dataURI);
         savePNG(sketchInput);
     }
     else if (blankSketch == true) {
@@ -226,7 +228,6 @@ function erase() {
     ctx.clearRect(0, 0, w, h);
     blankSketch = true;
 }
-
 // clears the current sketch and removes all added sketches
 function eraseAll() {
     var m = confirm("Want to clear all your sketches?");
@@ -241,74 +242,17 @@ function eraseAll() {
 }
 
 
-
-function downloadObjectAsJson(exportObj, exportName){
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
-  var downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href",     dataStr);
-  downloadAnchorNode.setAttribute("download", exportName + ".json");
-  document.body.appendChild(downloadAnchorNode); // required for firefox
-  downloadAnchorNode.click();
-  downloadAnchorNode.remove();
-}
-
-// Function for saving array - for mouse coordinates see prevX/Y and currX/Y
-function save() {
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(lastSketch));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
-    downloadAnchorNode.setAttribute("download", "test.json");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-  }
-
-
-function saveAbs() {
-    if (absSeqDataStr != false) {
-        var dataStr = absSeqDataStr;
-        var downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href",     dataStr);
-        downloadAnchorNode.setAttribute("download", "absVector.json");
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-    } 
-}
-function saveRel() {
-    if (relSeqDataStr != false){
-        var dataStr = relSeqDataStr;
-        var downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href",     dataStr);
-        downloadAnchorNode.setAttribute("download", "relVector.json");
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-    }
-}
-
-function savePNG(img) {
-    var dataStr = img;
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
-    downloadAnchorNode.setAttribute("download", "handsketch.png");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-}
-
-
 // model stuff
 var encoder;
 var decoder;
 var model;
 
 
-tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
-    encoder = enc;
-    console.log("loaded encoder");
-    console.log(encoder);
-   });
+// tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
+//     encoder = enc;
+//     console.log("loaded encoder");
+//     console.log(encoder);
+//    });
 
 tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
     decoder = dec;
@@ -353,3 +297,64 @@ function makePrediction(sketchInput) {
     console.log("data:"+data);
     console.log("model predict:"+model.predict(data));
 }   
+
+
+
+
+
+
+// for downloads
+function downloadObjectAsJson(exportObj, exportName){
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+  
+// Function for saving array - for mouse coordinates see prevX/Y and currX/Y
+function save() {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(lastSketch));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", "test.json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+function saveAbs() {
+    if (absSeqDataStr != false) {
+        var dataStr = absSeqDataStr;
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href",     dataStr);
+        downloadAnchorNode.setAttribute("download", "absVector.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    } 
+}
+function saveRel() {
+    if (relSeqDataStr != false){
+        var dataStr = relSeqDataStr;
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href",     dataStr);
+        downloadAnchorNode.setAttribute("download", "relVector.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+}
+
+function savePNG(img) {
+    var dataStr = img;
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", "handsketch.png");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
