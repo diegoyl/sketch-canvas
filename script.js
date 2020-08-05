@@ -134,11 +134,11 @@ function addSketch() {
 
         canvas = document.getElementById('myCanvas');
         let dataURI = canvas.toDataURL(); // png for displaying sketch on website
-        
+        let sketchInput = ctx.getImageData(x, y, w, h).data;
         // converting absVector into relVector with relative distances and pen states
         let relVector = abs2relConverter(absVector);
-        console.log("AbsVec:"+absVector);
-        console.log("RelVec:"+relVector);
+        // console.log("AbsVec:"+absVector);
+        // console.log("RelVec:"+relVector);
 
         // saving vector arrays as JSONs and storing it (currently just being stored in an array)
         absSeqDataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(absVector));
@@ -170,7 +170,7 @@ function addSketch() {
 
         // model prediction
         // makePrediction(dataURI);
-        savePNG(dataURI);
+        savePNG(sketchInput);
     }
     else if (blankSketch == true) {
         alert("You can't add an empty sketch")
@@ -304,22 +304,16 @@ var decoder;
 var model;
 
 
-// tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
-//     encoder = enc;
-//     console.log("loaded encoder");
-//     console.log(encoder);
-//    });
+tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
+    encoder = enc;
+    console.log("loaded encoder");
+    console.log(encoder);
+   });
 
-// tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
-//     decoder = dec;
-//     console.log("loaded decoder");
-//     console.log(decoder);
-//    });
-
-tf.loadLayersModel("model/model.json").then(function(mod) {
-    model = mod;
-    console.log("loaded model");
-    console.log(model);
+tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
+    decoder = dec;
+    console.log("loaded decoder");
+    console.log(decoder);
    });
 
 
@@ -334,6 +328,7 @@ function makePrediction(sketchInput) {
 
     let handdata = sketchInput;
     console.log(handdata);
+    
     let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
     hand_test /= 255;
 
