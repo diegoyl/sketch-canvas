@@ -265,14 +265,15 @@ var predictImg = document.getElementById("predict-img");
 var latent_dim = 10;
 
 
-var teste = [[[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-    -0.03934336 ,-0.08602308 , 0.18989778 ]]]
+var teste = [[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+    -0.03934336 ,-0.08602308 , 0.18989778 ]]
+    
 function makePrediction(sketchInput) {
     // teste = math.reshape(teste, [72, 72,3]);
     // teste[0] /= 255;
     console.log("testE");
     console.log(teste);
-
+    teste.shape = [1,9];
     let testd = decoder.predict(teste);
     console.log(testd);
 
