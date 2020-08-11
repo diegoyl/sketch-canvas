@@ -246,6 +246,7 @@ function eraseAll() {
 var encoder;
 var decoder;
 var model;
+var model2;
 
 
 // tf.loadLayersModel("encoder/encoder.json").then(function(enc) {
@@ -260,65 +261,97 @@ tf.loadLayersModel("decoder/decoder.json").then(function(dec) {
     console.log(decoder);
    });
 
+tf.loadLayersModel("decoder/decoder.json").then(function(mod) {
+    model2 = mod;
+    console.log("loaded model2");
+    console.log(model2);
+});
 
-var predictImg = document.getElementById("predict-img");
 var latent_dim = 10;
 
 
 var teste = [[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
     -0.03934336 ,-0.08602308 , 0.18989778 ]]
     
+
+    
+function model2Predict() {
+    canvas = document.getElementById('myCanvas');
+    let dataURI = canvas.toDataURL(); // png for displaying sketch on website
+    let sketchInput = ctx.getImageData(0, 0, w, h);
+
+    sketchInput = [dataURI];
+    console.log("length: "+sketchInput.length);
+    
+    let inp = tf.tensor(sketchInput,[1,1]);
+
+
+    inp = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
+    // sketchInput.shape = [100,2]
+    console.log("shape: "+inp.shape);
+
+    console.log("sketch input:");
+    console.log(inp);
+    let img_cols = 468;
+    let img_rows = 468;
+
+    
+    // let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
+    // hand_test /= 255;
+
+    // let img = immatrixhand[2].reshape(img_cols,img_rows,3)
+
+    let prediction = model2.predict(inp);
+    console.log("prediction");
+    console.log(prediction);
+
+    var output = document.getElementById("prediction");
+    output.innerHTML = prediction;
+}   
+
+
+
+
+
 function makePrediction(sketchInput) {
     // teste = math.reshape(teste, [72, 72,3]);
     // teste[0] /= 255;
+    
+
+    // let img_cols = 468;
+    // let img_rows = 468;
+
+    
+    // let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
+    // hand_test /= 255;
+
+    // let img = immatrixhand[2].reshape(img_cols,img_rows,3)
+
+
+    teste = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
+
     console.log("testE");
     console.log(teste);
-    teste.shape = [1,9];
-    let testd = decoder.predict(teste);
-    console.log(testd);
-
-    predictImg.src = testd;
-    // 3, 5, 8
-    // plt.imshow(testd[a])
-    console.log("teste:");
-    console.log(teste);
-    console.log("testd:");
-    console.log(testd);
-
-    // let data = np.zeros([2,latent_dim]);
-    // data[0] = teste[a];
-    // data[1] = teste[5];
-    // console.log("data:"+data);
-    // console.log("model predict:"+model.predict(data));
-}   
-
-
-function makePrediction2(sketchInput) {
-    let immatrixhand = sketchInput;
-
-    let img_cols = 632;
-    let img_rows = 470;
-
-    let handdata = sketchInput;
-    console.log(handdata);
     
-    let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
-    hand_test /= 255;
 
-    let img = immatrixhand[2].reshape(img_cols,img_rows,3)
-    // plt.imshow(img)
-
-    let teste = encoder.predict(hand_test);
+    teste.reshape = [1,9];
     let testd = decoder.predict(teste);
     console.log(testd);
 
-    let a = 2;
+    var predictImg = document.getElementById("predict-img");
+
+    var img = tf.node.encodePng(testd);
+    predictImg.src = img;
     // 3, 5, 8
     // plt.imshow(testd[a])
     console.log("teste:");
     console.log(teste);
     console.log("testd:");
     console.log(testd);
+    var output = document.getElementById("prediction");
+    output.innerHTML = testd;
 
     // let data = np.zeros([2,latent_dim]);
     // data[0] = teste[a];
@@ -326,8 +359,6 @@ function makePrediction2(sketchInput) {
     // console.log("data:"+data);
     // console.log("model predict:"+model.predict(data));
 }   
-
-
 
 
 
