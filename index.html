@@ -78,8 +78,9 @@
   <div id="box-left" class="main-box">
       <canvas id="myCanvas" width="468" height="468" style="background-color:white;margin:0px;float:right;"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
+      <script src="https://d3js.org/d3.v5.min.js"></script>
       <script src="script.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js" integrity="sha512-rCvDXOM8HOkDDjC0l9vQPhUg2n0rKlcsCtDjWG0ajYmVfjgtO6egt/RdSbKSzFCIUaE/OQRwmiU/4PmOeK3J+Q==" crossorigin="anonymous"></script>
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js" integrity="sha512-rCvDXOM8HOkDDjC0l9vQPhUg2n0rKlcsCtDjWG0ajYmVfjgtO6egt/RdSbKSzFCIUaE/OQRwmiU/4PmOeK3J+Q==" crossorigin="anonymous"></script> -->
       <div id="button-box">
         <div id="button-box-inside">
           <button class="button" id="addBtn" onclick="addSketch()">Add</button>
@@ -150,10 +151,17 @@
 </div> 
 <!-- end of Canvas and Interpolation containers-->
 
+
+<!-- Prediction Display -->
 <div style="background-color: blanchedalmond; color: black">
   <h2 style="color: black">Prediction:</h2>
+  <h4 id="prediction2" style="color: black"></h4>
+</div>
+<div style="background-color: rgb(231, 205, 255); color: black">
+  <h2 style="color: black">Prediction model2:</h2>
   <h4 id="prediction" style="color: black"></h4>
 </div>
+
 
 <div>
   <!-- About Section -->
