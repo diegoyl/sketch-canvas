@@ -279,23 +279,22 @@ function model2Predict() {
     canvas = document.getElementById('myCanvas');
     let dataURI = canvas.toDataURL(); // png for displaying sketch on website
     let sketchInput = ctx.getImageData(0, 0, w, h);
+    sketchInput = sketchInput.data;
 
-    sketchInput = [dataURI];
-    console.log("length: "+sketchInput.length);
-    
-    let inp = tf.tensor(sketchInput,[1,1]);
+    sketchInput = dataURI
+    let img_rows = sketchInput.length / 9;
+    // tf.reshape(sketchInput, [img_rows,9]);
+    // sketchInput.reshape()
+    let inp = tf.tensor(sketchInput,[img_rows,9]);
 
 
-    inp = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
+    // inp = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+    //     -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
     // sketchInput.shape = [100,2]
     console.log("shape: "+inp.shape);
 
     console.log("sketch input:");
     console.log(inp);
-    let img_cols = 468;
-    let img_rows = 468;
-
     
     // let hand_test = handdata.reshape(handdata.shape[0], img_cols, img_rows,3)
     // hand_test /= 255;
@@ -330,7 +329,15 @@ function makePrediction(sketchInput) {
 
 
     teste = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
+        -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+            -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                    -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                        -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                            -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                                -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                                    -0.03934336 ,-0.08602308 , 0.18989778 ], [-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+                                        -0.03934336 ,-0.08602308 , 0.18989778 ]], [9,9])
 
     console.log("testE");
     console.log(teste);
@@ -342,8 +349,8 @@ function makePrediction(sketchInput) {
 
     var predictImg = document.getElementById("predict-img");
 
-    var img = tf.node.encodePng(testd);
-    predictImg.src = img;
+    // var img = tf.node.encodePng(testd);
+    // predictImg.src = img;
     // 3, 5, 8
     // plt.imshow(testd[a])
     console.log("teste:");
