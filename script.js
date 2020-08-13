@@ -17,7 +17,7 @@ let intervalID;
 var blankSketch = true; // won't allow user to add the sketch if they haven't drawn anything
 
 // drawing style
-var x = "black",
+var x = "rgb(254,254,254)",
     y = 4;
 
 
@@ -266,40 +266,55 @@ tf.loadLayersModel("decoder/decoder.json").then(function(mod) {
 });
 
 
-var teste = [[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-    -0.03934336 ,-0.08602308 , 0.18989778 ]]
+tf.loadLayersModel("new-model/model.json").then(function(model) {
+    window.model = model;
+    console.log("modelllll loaded");
+   });
+
+
+// var teste = [[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+//     -0.03934336 ,-0.08602308 , 0.18989778 ]]
 
     
 // predicts performance (integer)    
 function model2Predict() {
-    canvas = document.getElementById('myCanvas');
-    let dataURI = canvas.toDataURL();
-    let sketchInput = ctx.getImageData(0, 0, w, h);
-
-    // sketchInput = sketchInput.data;
-
-    sketchInput = dataURI;
-    // let img_rows = sketchInput.length / 9;
-    // tf.reshape(sketchInput, [img_rows,9]);
-    // sketchInput.reshape()
-    let inp = tf.tensor(teste, [1,9]);
-
-    // inp = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-    //     -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
-    // sketchInput.shape = [100,2]
-    console.log("shape: "+inp.shape);
-    console.log("sketch input:");
-    console.log(inp);
-
-    //make prediction
-    let prediction = model2.predict(inp);
-    console.log("prediction");
-    console.log(prediction);
-
-    // display prediction
-    var output = document.getElementById("prediction");
-    output.innerHTML = prediction;
+    
+    var pred = new Image();
+    pred.onload = function() {
+        ctx.drawImage(pred, 0, 0, 224, 224);
+        data = ctx.getImageData(0, 0, 224, 224).data;
+        document.getElementById("predict-img").src = canvas.toDataURL();
+        var input = [];
+        for(var i = 0; i < data.length; i += 4) {
+        input.push(data[i + 0] / 255);
+        input.push(data[i + 1] / 255);
+        input.push(data[i + 2] / 255);
+        }
+        console.log("onload inp: "+input);
+        console.log("onload len: "+input.length);
+        CNNpredict(input);
+    };
+    pred.src = canvas.toDataURL('image/png');
 }   
+
+
+function CNNpredict(input) {  
+    var count = 0;
+    for(var i = 0; i < input.length; ++i){
+        if(input[i] == 1)
+            count++;
+    }    
+    console.log("ID: "+ count);
+    console.log("predict inp: "+input);
+    reshaped_input = tf.reshape(input, [1,224,224,3]);
+    console.log("reshape inp: "+reshaped_input);
+      
+    var outPred = model.predict(reshaped_input);
+    var output = document.getElementById("prediction");
+    output.innerHTML = outPred;
+}
+
+
 
 // makes prediction from added Sketch
 function makePrediction(sketchInput) { 
