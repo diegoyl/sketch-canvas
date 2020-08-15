@@ -286,9 +286,9 @@ function model2Predict() {
         document.getElementById("predict-img").src = canvas.toDataURL();
         var input = [];
         for(var i = 0; i < data.length; i += 4) {
-        input.push(data[i + 0] / 255);
-        input.push(data[i + 1] / 255);
-        input.push(data[i + 2] / 255);
+            input.push(data[i + 0] / 255);
+            input.push(data[i + 1] / 255);
+            input.push(data[i + 2] / 255);
         }
         console.log("onload inp: "+input);
         console.log("onload len: "+input.length);
