@@ -76,22 +76,20 @@
 <div id="main-wrapper">
   <!-- Canvas Container -->
   <div id="box-left" class="main-box">
-      <canvas id="myCanvas" width="224" height="224" style="background-color:white;margin:0px;float:right;"></canvas>
+      <canvas id="myCanvas" width="224" height="224" style="background-color:white;margin:0px;float:right; margin-right: 190px;"></canvas>
       <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
       <script src="script.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js" integrity="sha512-rCvDXOM8HOkDDjC0l9vQPhUg2n0rKlcsCtDjWG0ajYmVfjgtO6egt/RdSbKSzFCIUaE/OQRwmiU/4PmOeK3J+Q==" crossorigin="anonymous"></script>
       <div id="button-box">
         <div id="button-box-inside">
-          <button class="button" id="addBtn" onclick="addSketch()">Add</button>
+          <!-- <button class="button" id="addBtn" onclick="addSketch()">Add</button> -->
           <button class="button" id="clearBtn" onclick="erase()">Clear</button>
-          <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button>
+          <!-- <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button> -->
           <!-- <button class="button" id="saveBtn" onclick="savePNG()">download png</button> -->
 
-          <button class="button" id="predictBtn" onclick="model2Predict()">CNNpredict</button>
-          <div style="background-color: blanchedalmond; color:black;">
-            <h2 style="color:black;">CNN Prediction:</h2>
-            <h4 id="prediction" style="color:black;"></h4>
-          </div>
+          <button class="button" id="predictBtn" onclick="CNNpredict()">CNNpredict</button>
+          <button class="button" id="predictBtn" onclick="VAEpredict()">VAEpredict</button>
+          <button class="button" id="predictBtn" onclick="BOTHpredict()">Both</button>
           <!-- <button class="button" id="saveBtn" onclick="saveRel()">download relVector</button> -->
         </div>
       <!-- for debugging stuff -->
@@ -103,8 +101,19 @@
   <div id="box-right" class="main-box">
     <div id="interpolation-box" style="padding-top: 2px;">
 
-    <img src="https://i.ya-webdesign.com/images/blank-png-1.png" style="border: cadetblue 2px dashed;" id="predict-img" class="predict-img sketch-img"></img>
+    <img src="https://i.ya-webdesign.com/images/blank-png-1.png" width="224" height="224" id="predict-img" class="predict-img sketch-img"></img>
+    
+    <div style="background-color: blanchedalmond; color:black;">
+      <h2 style="color:black; font-weight: 600;">CNN Prediction:</h2>
+      <h4 id="prediction" style="color:black; font-weight: 500; font-size: 50px;"></h4>
+    </div>
 
+    <!-- <img src="https://i.ya-webdesign.com/images/blank-png-1.png" width="224" height="224" id="predict-img" class="predict-img sketch-img"></img> -->
+
+    <div style="background-color: paleturquoise; color:black;">
+      <h2 style="color:black; font-weight: 600;">VAE Prediction:</h2>
+      <h4 id="predictionVAE" style="color:black; font-weight: 300; font-size: 16px;"></h4>
+    </div>
     <!-- grid pictures -->
     <!-- <div id="interpolation-box" style="padding-top: 2px;">
       <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch1" class="interpolation-img sketch-img"></img>

@@ -17,7 +17,7 @@ let intervalID;
 var blankSketch = true; // won't allow user to add the sketch if they haven't drawn anything
 
 // drawing style
-var x = "rgb(254,254,254)",
+var x = "rgba(0,0,0,1)",
     y = 4;
 
 
@@ -26,6 +26,7 @@ function init() {
      ctx = canvas.getContext("2d");
      w = canvas.width;
      h = canvas.height;
+     fillCanvas();
 
      absVector = [];
 
@@ -227,12 +228,13 @@ function abs2relConverter(absvec) {
 function erase() {
     ctx.clearRect(0, 0, w, h);
     blankSketch = true;
+    fillCanvas();
 }
 // clears the current sketch and removes all added sketches
 function eraseAll() {
     var m = confirm("Want to clear all your sketches?");
     if (m) {
-        ctx.clearRect(0, 0, w, h);
+        fillCanvas();
         sketch1.src = "https://i.ya-webdesign.com/images/blank-png-1.png";
         sketch2.src = "https://i.ya-webdesign.com/images/blank-png-1.png";
         sketch3.src = "https://i.ya-webdesign.com/images/blank-png-1.png";
@@ -240,7 +242,10 @@ function eraseAll() {
         addCount = 0
     }
 }
-
+function fillCanvas() {
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, w, h);    
+}
 
 // model stuff
 var encoder;
@@ -277,8 +282,60 @@ tf.loadLayersModel("new-model/model.json").then(function(model) {
 
     
 // predicts performance (integer)    
-function model2Predict() {
+function CNNpredict() {
+    resetResults();
+    var pred = new Image();
+    pred.onload = function() {
+        ctx.drawImage(pred, 0, 0, 224, 224);
+        data = ctx.getImageData(0, 0, 224, 224).data;
+        document.getElementById("predict-img").src = canvas.toDataURL();
+        var input = [];
+        for(var i = 0; i < data.length; i += 4) {
+            input.push(data[i + 0] / 255);
+            input.push(data[i + 1] / 255);
+            input.push(data[i + 2] / 255);
+            // console.log("0: "+data[i + 0]);
+            // console.log("1: "+data[i + 1]);
+            // console.log("2: "+data[i + 2]);
+            // console.log("3: "+data[i + 3]);
+        }
+        console.log("onload inp: "+input);
+        console.log("onload len: "+input.length);
+        CNNpredict2(input);
+    };
+    pred.src = canvas.toDataURL('image/png');
+}   
+
+
+function CNNpredict2(input) {
+    var count = 0;
+    for(var i = 0; i < input.length; ++i){
+        if(input[i] == 1)
+            count++;
+    }    
+    console.log("ID: "+ count);
+
+    console.log("predict inp: "+input);
+    reshaped_input = tf.reshape(input, [1,224,224,3]);
+    console.log("reshape inp: "+reshaped_input);
+      
+    var outPred = model.predict(reshaped_input);
+    var output = document.getElementById("prediction");
+
+    var tensorData = outPred.dataSync();
+    console.log("tensor data "+tensorData)
+    var predictDisplay = tensorData[0];
+
+    output.innerHTML = predictDisplay;
     
+    erase();
+}
+
+
+
+// makes prediction from added Sketch
+function VAEpredict() { 
+    resetResults();
     var pred = new Image();
     pred.onload = function() {
         ctx.drawImage(pred, 0, 0, 224, 224);
@@ -292,58 +349,98 @@ function model2Predict() {
         }
         console.log("onload inp: "+input);
         console.log("onload len: "+input.length);
-        CNNpredict(input);
+        VAEpredict2(input);
     };
     pred.src = canvas.toDataURL('image/png');
-}   
 
+    // teste = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+    //     -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
 
-function CNNpredict(input) {  
-    var count = 0;
-    for(var i = 0; i < input.length; ++i){
-        if(input[i] == 1)
-            count++;
-    }    
-    console.log("ID: "+ count);
-    console.log("predict inp: "+input);
-    reshaped_input = tf.reshape(input, [1,224,224,3]);
-    console.log("reshape inp: "+reshaped_input);
-      
-    var outPred = model.predict(reshaped_input);
-    var output = document.getElementById("prediction");
-    output.innerHTML = outPred;
-}
+    // teste.reshape = [1,9];
+    // let testd = decoder.predict(teste);
+    // console.log(testd);
 
-
-
-// makes prediction from added Sketch
-function makePrediction(sketchInput) { 
-    // teste = reshape(teste, [72, 72,3]);
-    // teste[0] /= 255;
-
-    teste = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
-        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
-
-    teste.reshape = [1,9];
-    let testd = decoder.predict(teste);
-    console.log(testd);
-
-    var predictImg = document.getElementById("predict-img");
+    // var predictImg = document.getElementById("predict-img");
 
     // var img = tf.encodePng(testd);
     // predictImg.src = img;
     // 3, 5, 8
     // plt.imshow(testd[a])
-    console.log("teste:");
-    console.log(teste);
-    console.log("testd:");
-    console.log(testd);
-    var output = document.getElementById("prediction2");
-    output.innerHTML = testd;
+    // console.log("teste:");
+    // console.log(teste);
+    // console.log("testd:");
+    // console.log(testd);
+    // var output = document.getElementById("prediction2");
+    // output.innerHTML = testd;
 }   
+function VAEpredict2(input) {
+    // console.log("predict inp: "+input);
+    // reshaped_input = tf.reshape(input, [1,224,224,3]);
+    // console.log("reshape inp: "+reshaped_input);
+ 
+    teste = tf.tensor([[-0.03005229 , 0.02860937 , 0.06479363 ,-0.00289215 ,-0.0616348 ,  0.02338343,
+        -0.03934336 ,-0.08602308 , 0.18989778 ]], [1,9])
+
+    teste.reshape = [1,9];
+
+    input =  teste;
+    var testd = decoder.predict(teste);
+    var output = document.getElementById("predictionVAE");
+
+    output.innerHTML = testd;
+    console.log(testd.shape);
+    
+    var tensorImg = TensorToImage(testd);
+    document.getElementById("predict-img").src = tensorImg;
+
+
+    erase();
+}
 
 
 
+function TensorToImage(tensor) {
+    console.log("start tensor to image");
+    //get the tensor shape
+    const [width, height] = tensor.shape;
+    //create a buffer array
+    const buffer = new Uint8ClampedArray(width * height * 4);
+    //create an Image data var 
+    const imageData = new ImageData(width, height);
+    //get the tensor values as data
+    const data = tensor.dataSync();
+    //map the values to the buffer
+    var i = 0;
+    for(var y = 0; y < height; y++) {
+        for(var x = 0; x < width; x++) {
+            var pos = (y * width + x) * 4;      // position in buffer based on x and y
+            buffer[pos  ] = data[i];             // some R value [0, 255]
+            buffer[pos+1] = data[i+1];           // some G value
+            buffer[pos+2] = data[i+2];           // some B value
+            buffer[pos+3] = 255;                // set alpha channel
+            i+=3;
+        }
+    }
+    //set the buffer to the image data
+    imageData.data.set(buffer);
+    //show the image on canvas
+    document.getElementById("predict-img").src = imageData;
+    // ctx.putImageData(imageData, 0, 0);
+};
+  
+
+
+
+function BOTHpredict() {
+    CNNpredict();
+    VAEpredict();
+}
+function resetResults() {
+    var output1 = document.getElementById("prediction");
+    var output2 = document.getElementById("predictionVAE");
+    output1.innerHTML = "";
+    output2.innerHTML = "";
+}
 
 // for downloads
 function downloadObjectAsJson(exportObj, exportName){
