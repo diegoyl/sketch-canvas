@@ -24,85 +24,61 @@
 
 <body style="background-color:rgb(50, 50, 50)" onload="init()">
 
-<!-- Icon Bar (Sidebar - hidden on small screens) -->
-<!-- <nav class="sidebar">
-    <h3 class="menu-title" style="font-size:43px; font-weight: bold;">Sketch Canvas</h3>
-    <h3 class="menu-subtitle" style="font-size:16px">An MIT Project<h3>
-  <a href="#" class="menu-item menu-hover">
-    <h3>Home</h3>
-  </a>
-  <a href="#about" class="menu-item menu-hover">
-    <h3>About</h3>
-  </a>
-  <a href="#contact" class="menu-item menu-hover">
-    <h3>Contact</h3>
-  </a>
-  </a>
-  <a href="#old" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <h3>. . .</h3>
-  </a>
-  </nav> -->
 
-<!-- Navbar on small screens (Hidden on medium and large screens)
-<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
-  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
-    <a href="#" class="w3-bar-item w3-button" style="width:25% !important">Home</a>
-    <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">About</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">Contact</a>
-    </div>
-</div> -->
-
-<!-- Page Content -->
-<div id="home">
-  <!-- Header/Home -->
-  <div id="header">
-    <div id='header-box'>
-      <span class="header-span" id="title">Sketch Canvas</span class="header-span">  
-      <a href="#home" class="menu-item menu-hover">
-        <span>Home</span>
-      </a>
-      <a href="#about" class="menu-item menu-hover">
-        <span>About</span>
-      </a>
-      <a href="#contact" class="menu-item menu-hover">
-        <span>Contact</span>
-      </a>
-      <!-- <span class="header-span" id="subtitle">An MIT Project</span> -->
-    </div>
-  </div>
-</div>
-
-<!-- Canvas and Interpolation Box-->
-<div id="main-wrapper">
-  <!-- Canvas Container -->
-  <div id="box-left" class="main-box">
-      <canvas id="myCanvas" width="224" height="224" style="background-color:white;margin:0px;float:right; margin-right: 190px;"></canvas>
-      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
-      <script src="script.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/7.1.0/math.min.js" integrity="sha512-rCvDXOM8HOkDDjC0l9vQPhUg2n0rKlcsCtDjWG0ajYmVfjgtO6egt/RdSbKSzFCIUaE/OQRwmiU/4PmOeK3J+Q==" crossorigin="anonymous"></script>
-      <div id="button-box">
-        <div id="button-box-inside">
-          <!-- <button class="button" id="addBtn" onclick="addSketch()">Add</button> -->
-          <button class="button" id="clearBtn" onclick="erase()">Clear</button>
-          <!-- <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button> -->
-          <!-- <button class="button" id="saveBtn" onclick="savePNG()">download png</button> -->
-
-          <button class="button" id="predictBtn" onclick="CNNpredict()">CNNpredict</button>
-          <button class="button" id="predictBtn" onclick="VAEpredict()">VAEpredict</button>
-          <button class="button" id="predictBtn" onclick="BOTHpredict()">Both</button>
-          <!-- <button class="button" id="saveBtn" onclick="saveRel()">download relVector</button> -->
-        </div>
-      <!-- for debugging stuff -->
-      <!-- <h6 id='scrollStatus'>scroll...</h6>  -->
+  <!-- Page Content -->
+  <div id="home">
+    <!-- Header/Home -->
+    <div id="header">
+      <div id='header-box'>
+        <span class="header-span" id="title">Sketch Canvas</span class="header-span">  
+        <a href="#home" class="menu-item menu-hover">
+          <span>Home</span>
+        </a>
+        <a href="#about" class="menu-item menu-hover">
+          <span>About</span>
+        </a>
+        <a href="#contact" class="menu-item menu-hover">
+          <span>Contact</span>
+        </a>
+        <!-- <span class="header-span" id="subtitle">An MIT Project</span> -->
       </div>
+    </div>
   </div>
 
-  <!-- Interpolation Container -->
-  <div id="box-right" class="main-box">
-    <div id="interpolation-box" style="padding-top: 2px;">
 
+  <!-- Canvas and Interpolation Box-->
+  <!-- <div id="main-wrapper"> -->
+    <!-- Canvas Container -->
+    <!-- <div id="box-left" class="main-box">
+    </div> -->
+    <!-- Interpolation Container -->
+    <!-- <div id="box-right" class="main-box">
+      <div id="interpolation-box" style="padding-top: 2px;">     
+    </div>
+  </div>  -->
+  <!-- end of Canvas and Interpolation containers-->
+
+  <div style="padding-top: 100px;">
+    <canvas id="myCanvas" width="224" height="224" style="background-color:white;margin:0px;float:right; margin-right: 190px;"></canvas>
+    <canvas id="predCanvas" width="224" height="224" style="background-color:lightsteelblue;margin:0px;float:right; margin-right: 190px;"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
+    <script src="script.js"></script>
+    <div id="button-box">
+      <div id="button-box-inside">
+        <!-- <button class="button" id="addBtn" onclick="addSketch()">Add</button> -->
+        <button class="button" id="clearBtn" onclick="erase()">Clear</button>
+        <!-- <button class="button button3" id="clearallBtn" onclick="eraseAll()">Clear All</button> -->
+        <!-- <button class="button" id="saveBtn" onclick="savePNG()">download png</button> -->
+
+        <button class="button" id="predictBtn" onclick="CNNpredict()">CNNpredict</button>
+        <button class="button" id="predictBtn" onclick="VAEpredict()">VAEpredict</button>
+        <button class="button" id="predictBtn" onclick="BOTHpredict()">Both</button>
+        <!-- <button class="button" id="saveBtn" onclick="saveRel()">download relVector</button> -->
+      </div>
+    </div>
     <img src="https://i.ya-webdesign.com/images/blank-png-1.png" width="224" height="224" id="predict-img" class="predict-img sketch-img"></img>
-    
+
     <div style="background-color: blanchedalmond; color:black;">
       <h2 style="color:black; font-weight: 600;">CNN Prediction:</h2>
       <h4 id="prediction" style="color:black; font-weight: 500; font-size: 50px;"></h4>
@@ -114,124 +90,94 @@
       <h2 style="color:black; font-weight: 600;">VAE Prediction:</h2>
       <h4 id="predictionVAE" style="color:black; font-weight: 300; font-size: 16px;"></h4>
     </div>
-    <!-- grid pictures -->
-    <!-- <div id="interpolation-box" style="padding-top: 2px;">
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch1" class="interpolation-img sketch-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch2" class="interpolation-img sketch-img"></img>
-      
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch3" class="interpolation-img sketch-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="" class="interpolation-img"></img>
-      <img src="https://i.ya-webdesign.com/images/blank-png-1.png" id="sketch4" class="interpolation-img sketch-img"></img> -->
-      
-      <!-- for debugging stuff -->
-      <!-- <h6 id='status'>status...</h6>  -->
-    </div>
+
   </div>
-</div> 
-<!-- end of Canvas and Interpolation containers-->
+  <!-- Create a div where the graph will take place -->
+  <div id="my_dataviz"></div>
+  <!-- A bit of style -->
+  <style>
+    .axis {
+      opacity: 0.4;
+    }
+    .axis:hover {
+      opacity: 1;
+    }
+    #my_dataviz {
+      background-color: whitesmoke;
+    }
+  </style>
 
-
-
-<div>
-  <!-- About Section -->
-  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
-    <h2 class="w3-text-light-grey">What is this project about?</h2>
-    <hr style="width:200px" class="w3-opacity">
-    <p>Some text about this project. Lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-      ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
-      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
-
-    <button class="w3-button w3-light-grey w3-padding-large w3-section">
-      <i class="fa fa-download"></i> Download Research Paper
-    </button>
-
-    <!-- Testimonials -->
-    <h3 class="w3-padding-24 w3-text-light-grey">Team</h3>
-    <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
-    <p><span class="w3-large w3-margin-right">Bryan Ong.</span> Masters Researcher.</p>
-    <p>I am a....</p><br>
-
-    <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
-    <p><span class="w3-large w3-margin-right">Caitlin Mueller.</span> Advisor.</p>
-    <p>I am a...</p>
-  <!-- End About Section -->
-  </div>
-
-
-  <!-- Contact Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
-    <h2 class="w3-text-light-grey">Contact Us</h2>
-    <hr style="width:200px" class="w3-opacity">
-
-    <div class="w3-section">
-      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Massachusetts, US</p>
-      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
-      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
-    </div><br>
-    <p>Lets get in touch. Send me a message:</p>
-
-    <form action="/action_page.php" target="_blank">
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
-      <p>
-        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
-          <i class="fa fa-paper-plane"></i> SEND MESSAGE
-        </button>
+  <div>
+    <!-- About Section -->
+    <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+      <h2 class="w3-text-light-grey">What is this project about?</h2>
+      <hr style="width:200px" class="w3-opacity">
+      <p>Some text about this project. Lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
+        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
       </p>
-    </form>
-  <!-- End Contact Section -->
+
+      <button class="w3-button w3-light-grey w3-padding-large w3-section">
+        <i class="fa fa-download"></i> Download Research Paper
+      </button>
+
+      <!-- Testimonials -->
+      <h3 class="w3-padding-24 w3-text-light-grey">Team</h3>
+      <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+      <p><span class="w3-large w3-margin-right">Bryan Ong.</span> Masters Researcher.</p>
+      <p>I am a....</p><br>
+
+      <img src="" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
+      <p><span class="w3-large w3-margin-right">Caitlin Mueller.</span> Advisor.</p>
+      <p>I am a...</p>
+    <!-- End About Section -->
+    </div>
+
+
+    <!-- Contact Section -->
+    <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+      <h2 class="w3-text-light-grey">Contact Us</h2>
+      <hr style="width:200px" class="w3-opacity">
+
+      <div class="w3-section">
+        <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Massachusetts, US</p>
+        <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
+        <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
+      </div><br>
+      <p>Lets get in touch. Send me a message:</p>
+
+      <form action="/action_page.php" target="_blank">
+        <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
+        <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
+        <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
+        <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
+        <p>
+          <button class="w3-button w3-light-grey w3-padding-large" type="submit">
+            <i class="fa fa-paper-plane"></i> SEND MESSAGE
+          </button>
+        </p>
+      </form>
+    <!-- End Contact Section -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+      <i class="fa fa-f  acebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+      <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    <!-- End footer -->
+    </footer>
+
+  <!-- END PAGE CONTENT -->
   </div>
+  
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="parallel.js"></script>
 
-  <!-- Footer -->
-  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
-    <i class="fa fa-f  acebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
-    <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-  <!-- End footer -->
-  </footer>
-
-<!-- END PAGE CONTENT -->
-</div>
 </body>
 </html>
